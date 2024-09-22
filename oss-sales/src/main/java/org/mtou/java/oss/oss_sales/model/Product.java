@@ -8,19 +8,19 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
+@Table(name = "product_tb")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String name;
     private Double price;
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @Column(nullable = false)
+    private Integer stockQuantity;
 
-    // Getters and Setters
+
 }
