@@ -1,4 +1,4 @@
-package org.mtou.java.oss.oss_sales.model;
+package org.mtou.java.oss.oss_oinventory.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

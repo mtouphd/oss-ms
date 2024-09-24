@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3308/billing-dev-db?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://billing-db:3308/billing-dev-db?allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: sso-db-usr
     driver-class-name: com.mysql.cj.jdbc.Driver

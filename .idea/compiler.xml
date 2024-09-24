@@ -7,12 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="oss-inventory" />
         <module name="oss-sales" />
+        <module name="oss-billing" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="oss-billing" options="-parameters" />
+      <module name="oss-inventory" options="-parameters" />
       <module name="oss-sales" options="-parameters" />
     </option>
   </component>

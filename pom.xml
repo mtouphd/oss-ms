@@ -21,6 +21,8 @@
     <!-- Définition des modules enfants -->
     <modules>
         <module>oss-sales</module>
+        <module>oss-inventory</module>
+        <module>oss-billing</module>
     </modules>
 
     <!-- Gestion des dépendances communes via le BOM de Spring Boot -->

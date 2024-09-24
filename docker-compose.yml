@@ -50,32 +50,94 @@ services:
     build:
       context: ./oss-sales
     ports:
-      - "8081:8081"
+      - "8083:8083"
     environment:
-      - SPRING_PROFILES_ACTIVE=local
+      - SPRING_PROFILES_ACTIVE=docker
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-      - SPRING_DATASOURCE_URL=jdbc:mysql://sales-db:3306/salesdb
+      - SPRING_DATASOURCE_URL=jdbc:mysql://sales-db:3306/sales-dev-db
       - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_PASSWORD=sso-db-usr
     depends_on:
       - sales-db
       - kafka
-    # MySQL for Sales Service
-    
+
+  # Inventory Service
+  inventory-service:
+    image: oss-inventory:latest
+    container_name: oss-inventory
+    build:
+      context: ./oss-inventory
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_DATASOURCE_URL=jdbc:mysql://inventory-db:3307/inventory-dev-db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=sso-db-usr
+    depends_on:
+      - inventory-db
+      - kafka
+
+  # billing Service
+  billing-service:
+    image: oss-billing:latest
+    container_name: oss-billing
+    build:
+      context: ./oss-billing
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_DATASOURCE_URL=jdbc:mysql://billing-db:3308/billing-dev-db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=sso-db-usr
+    depends_on:
+      - billing-db
+      - kafka
+
+  # MySQL for Sales Service
   sales-db:
     image: mysql:8.0
     container_name: sales-db
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: salesdb
+      MYSQL_ROOT_PASSWORD: sso-db-usr
+      MYSQL_DATABASE: sales-dev-db
     ports:
       - "3306:3306"
     volumes:
       - sales-data:/var/lib/mysql
-      
+
+  # MySQL for inventory Service
+  inventory-db:
+    image: mysql:8.0
+    container_name: inventory-db
+    environment:
+      MYSQL_ROOT_PASSWORD: sso-db-usr
+      MYSQL_DATABASE: inventory-dev-db
+    ports:
+      - "3307:3306"
+    volumes:
+      - inventory-data:/var/lib/mysql
+
+  # MySQL for inventory Service
+  billing-db:
+    image: mysql:8.0
+    container_name: billing-db
+    environment:
+      MYSQL_ROOT_PASSWORD: sso-db-usr
+      MYSQL_DATABASE: billing-dev-db
+    ports:
+      - "3308:3306"
+    volumes:
+      - billing-data:/var/lib/mysql
+
 networks:
   kafka-network:
     driver: bridge
 
 volumes:
   sales-data:
+  inventory-data:
+  billing-data:
